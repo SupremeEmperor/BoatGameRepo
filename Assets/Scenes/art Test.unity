@@ -327,7 +327,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 593295756}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1.4, y: 1.5, z: 1.4}
   m_ConstrainProportionsScale: 0
@@ -347,7 +347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6e66fe9944e1e84580469316dcc4840, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 5
+  Speed: 8
   Cam: {fileID: 1398814080}
 --- !u!143 &593295763
 CharacterController:
@@ -1769,7 +1769,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: ec6d368764a8d964abd1e66735b9ed86, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2867,6 +2867,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8440359954843009061}
   - component: {fileID: 9109091016319294112}
+  - component: {fileID: 9109091016319294113}
   m_Layer: 0
   m_Name: new magerun
   m_TagString: Untagged
@@ -2895,6 +2896,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &9109091016319294113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9109091016319294111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4803b06ba8e768e4fba2c3c5032bda32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &9132057986873512450
 Transform:
   m_ObjectHideFlags: 0
