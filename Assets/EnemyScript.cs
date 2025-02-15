@@ -9,7 +9,7 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     public void Damage(int dmg)
     {
-        Debug.Log(dmg);
+        //Debug.Log(dmg);
         health -= dmg;
         if (health <= 0)
         {

@@ -15,14 +15,13 @@ public class TargetReticleInputManager : MonoBehaviour
     {
         playerInput = new PlayerInput();
         tarRetActions = playerInput.TargetReticle;
-        asChar = playerInput.AsCharacter;
         targetReticleMotor = GetComponent<TargetReticleMotor>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        targetReticleMotor.ProcessMove(tarRetActions.Target.ReadValue<Vector2>(),asChar.Movement.ReadValue<Vector2>());
+        targetReticleMotor.ProcessMove(tarRetActions.Target.ReadValue<Vector2>(), tarRetActions.Accelerate.ReadValue<float>());
     }
 
     private void OnEnable()

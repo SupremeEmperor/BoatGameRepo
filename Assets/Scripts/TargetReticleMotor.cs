@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,36 +6,36 @@ using UnityEngine;
 public class TargetReticleMotor : MonoBehaviour
 {
 
-    private CharacterController controller;
+    //private CharacterController controller;
+    [SerializeField] Rigidbody rb;
     private Vector3 downVelocity;
     private bool isGrounded;
 
-    public float speed = 5f;
-    public float gravity = -9.8f;
+    [SerializeField] float speed = 5f;
+    [SerializeField] float accelerationMultiplier = 2f;
+    float offSpeed;
 
-    public GameObject character;
+    [SerializeField] float speedChangeDelay = 1f;
+    float lastSpeedChange = 0;
+
+    [SerializeField] GameObject character;
     //public Camera myCamera;
 
     private float currentVelocity;
     // Start is called before the first frame update
     void Start()
     {
-        controller = this.GetComponent<CharacterController>();
+        offSpeed = speed * accelerationMultiplier;
     }
 
     // Update is called once per frame
     void Update()
     {
-        isGrounded = controller.isGrounded;
+        //isGrounded = controller.isGrounded;
     }
 
-    public void ProcessMove(Vector2 reticleInput, Vector2 characterInput)
+    public void ProcessMove(Vector2 reticleInput, float accelerate)
     {
-        Vector3 characterMoveDirection = GetMoveDirection(characterInput);
-
-        controller.Move(character.GetComponent<CharacterMotor>().speed * Time.deltaTime * characterMoveDirection);
-
-        //Debug.Log(characterMoveDirection);
 
         Vector3 reticleMoveDirection = GetMoveDirection(reticleInput);
 
@@ -42,14 +43,28 @@ public class TargetReticleMotor : MonoBehaviour
 
         reticleMoveDirection = reticleMoveDirection.normalized;
 
-        controller.Move(speed * Time.deltaTime * reticleMoveDirection);
-        downVelocity.y += gravity;
-        if (isGrounded && downVelocity.y < 0)
-            downVelocity.y = -2;
-        controller.Move(downVelocity * Time.deltaTime);
+        rb.velocity = reticleMoveDirection * speed;
+
+        ChangeSpeed(accelerate);
 
         
 
+    }
+
+    private void ChangeSpeed(float accelerate)
+    {
+        if(Time.time - lastSpeedChange > speedChangeDelay && accelerate > 0)
+        {
+            lastSpeedChange = Time.time;
+            float temp = offSpeed;
+            offSpeed = speed;
+            speed = temp;
+        }
+
+        if(accelerate == 0)
+        {
+            lastSpeedChange = 0;
+        }
     }
 
     private static Vector3 GetMoveDirection(Vector2 input)

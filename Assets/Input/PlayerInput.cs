@@ -171,6 +171,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SecondaryAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""00a0b8f5-e954-4353-9977-4e191e665c64"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -239,6 +248,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Fire"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9f02afa9-9341-40f1-b974-2f74906320f8"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SecondaryAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -254,6 +274,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Accelerate"",
+                    ""type"": ""Button"",
+                    ""id"": ""dd46b7ba-abc3-4b07-acad-eeb3dd6e3a74"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -311,6 +340,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Target"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c8e35618-ddbc-42d9-a2a1-9e45abfd61c2"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Accelerate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -324,9 +364,11 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_AsCharacter = asset.FindActionMap("AsCharacter", throwIfNotFound: true);
         m_AsCharacter_Movement = m_AsCharacter.FindAction("Movement", throwIfNotFound: true);
         m_AsCharacter_Fire = m_AsCharacter.FindAction("Fire", throwIfNotFound: true);
+        m_AsCharacter_SecondaryAction = m_AsCharacter.FindAction("SecondaryAction", throwIfNotFound: true);
         // TargetReticle
         m_TargetReticle = asset.FindActionMap("TargetReticle", throwIfNotFound: true);
         m_TargetReticle_Target = m_TargetReticle.FindAction("Target", throwIfNotFound: true);
+        m_TargetReticle_Accelerate = m_TargetReticle.FindAction("Accelerate", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -436,12 +478,14 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private List<IAsCharacterActions> m_AsCharacterActionsCallbackInterfaces = new List<IAsCharacterActions>();
     private readonly InputAction m_AsCharacter_Movement;
     private readonly InputAction m_AsCharacter_Fire;
+    private readonly InputAction m_AsCharacter_SecondaryAction;
     public struct AsCharacterActions
     {
         private @PlayerInput m_Wrapper;
         public AsCharacterActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_AsCharacter_Movement;
         public InputAction @Fire => m_Wrapper.m_AsCharacter_Fire;
+        public InputAction @SecondaryAction => m_Wrapper.m_AsCharacter_SecondaryAction;
         public InputActionMap Get() { return m_Wrapper.m_AsCharacter; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -457,6 +501,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Fire.started += instance.OnFire;
             @Fire.performed += instance.OnFire;
             @Fire.canceled += instance.OnFire;
+            @SecondaryAction.started += instance.OnSecondaryAction;
+            @SecondaryAction.performed += instance.OnSecondaryAction;
+            @SecondaryAction.canceled += instance.OnSecondaryAction;
         }
 
         private void UnregisterCallbacks(IAsCharacterActions instance)
@@ -467,6 +514,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Fire.started -= instance.OnFire;
             @Fire.performed -= instance.OnFire;
             @Fire.canceled -= instance.OnFire;
+            @SecondaryAction.started -= instance.OnSecondaryAction;
+            @SecondaryAction.performed -= instance.OnSecondaryAction;
+            @SecondaryAction.canceled -= instance.OnSecondaryAction;
         }
 
         public void RemoveCallbacks(IAsCharacterActions instance)
@@ -489,11 +539,13 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_TargetReticle;
     private List<ITargetReticleActions> m_TargetReticleActionsCallbackInterfaces = new List<ITargetReticleActions>();
     private readonly InputAction m_TargetReticle_Target;
+    private readonly InputAction m_TargetReticle_Accelerate;
     public struct TargetReticleActions
     {
         private @PlayerInput m_Wrapper;
         public TargetReticleActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Target => m_Wrapper.m_TargetReticle_Target;
+        public InputAction @Accelerate => m_Wrapper.m_TargetReticle_Accelerate;
         public InputActionMap Get() { return m_Wrapper.m_TargetReticle; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -506,6 +558,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Target.started += instance.OnTarget;
             @Target.performed += instance.OnTarget;
             @Target.canceled += instance.OnTarget;
+            @Accelerate.started += instance.OnAccelerate;
+            @Accelerate.performed += instance.OnAccelerate;
+            @Accelerate.canceled += instance.OnAccelerate;
         }
 
         private void UnregisterCallbacks(ITargetReticleActions instance)
@@ -513,6 +568,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Target.started -= instance.OnTarget;
             @Target.performed -= instance.OnTarget;
             @Target.canceled -= instance.OnTarget;
+            @Accelerate.started -= instance.OnAccelerate;
+            @Accelerate.performed -= instance.OnAccelerate;
+            @Accelerate.canceled -= instance.OnAccelerate;
         }
 
         public void RemoveCallbacks(ITargetReticleActions instance)
@@ -538,9 +596,11 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
+        void OnSecondaryAction(InputAction.CallbackContext context);
     }
     public interface ITargetReticleActions
     {
         void OnTarget(InputAction.CallbackContext context);
+        void OnAccelerate(InputAction.CallbackContext context);
     }
 }

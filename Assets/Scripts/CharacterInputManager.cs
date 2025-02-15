@@ -9,6 +9,7 @@ public class CharacterInputManager : MonoBehaviour
 
     private CharacterMotor characterMotor;
     private SpellCastMotor spellCastMotor;
+    private SecondaryActionMotor secondaryActionMotor;
     // Start is called before the first frame update
     void Awake()
     {
@@ -16,6 +17,7 @@ public class CharacterInputManager : MonoBehaviour
         asChar = playerInput.AsCharacter;
         characterMotor = GetComponent<CharacterMotor>();
         spellCastMotor = GetComponent<SpellCastMotor>();
+        secondaryActionMotor = GetComponent<SecondaryActionMotor>();
 
     }
 
@@ -24,6 +26,7 @@ public class CharacterInputManager : MonoBehaviour
     {
         characterMotor.ProcessMove(asChar.Movement.ReadValue<Vector2>());
         spellCastMotor.Fire(asChar.Fire.ReadValue<float>());
+        secondaryActionMotor.Action(asChar.SecondaryAction.ReadValue<float>());
 
     }
 

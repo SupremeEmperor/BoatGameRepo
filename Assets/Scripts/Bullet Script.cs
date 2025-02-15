@@ -23,11 +23,13 @@ public class BulletScript : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    
+
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (other.gameObject.CompareTag("Enemy"))
         {
-            collision.gameObject.GetComponent<EnemyScript>().Damage(damage);
+            other.gameObject.GetComponent<EnemyScript>().Damage(damage);
             Destroy(this.gameObject);
         }
     }
