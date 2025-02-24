@@ -10,6 +10,11 @@ public class PlayerMove : MonoBehaviour
 
     public Transform Cam;
 
+    //JUMP CODE
+    public Rigidbody rb;
+    public float jumpForce = 10f;
+    [SerializeField] float gravity = 100;  
+
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +32,7 @@ public class PlayerMove : MonoBehaviour
         float Vertical = Input.GetAxis("Vertical") * Speed * Time.deltaTime;
 
         Vector3 Movement = Cam.transform.right * Horizontal + Cam.transform.forward * Vertical;
-        Movement.y = 0f;
+       // Movement.y = 0f;
 
 
 
@@ -44,6 +49,10 @@ public class PlayerMove : MonoBehaviour
 
             transform.rotation = Quaternion.Lerp(transform.rotation, CamRotation, 0.1f);
 
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            //rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
         }
     }
 
