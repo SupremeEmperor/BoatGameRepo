@@ -180,6 +180,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Release"",
+                    ""type"": ""Button"",
+                    ""id"": ""dc98558f-2a83-43e7-a81f-516142e1ec57"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -257,6 +266,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""SecondaryAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f4f9baef-64bd-448b-8c31-e079875f19af"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Release"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -365,6 +385,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_AsCharacter_Movement = m_AsCharacter.FindAction("Movement", throwIfNotFound: true);
         m_AsCharacter_Fire = m_AsCharacter.FindAction("Fire", throwIfNotFound: true);
         m_AsCharacter_SecondaryAction = m_AsCharacter.FindAction("SecondaryAction", throwIfNotFound: true);
+        m_AsCharacter_Release = m_AsCharacter.FindAction("Release", throwIfNotFound: true);
         // TargetReticle
         m_TargetReticle = asset.FindActionMap("TargetReticle", throwIfNotFound: true);
         m_TargetReticle_Target = m_TargetReticle.FindAction("Target", throwIfNotFound: true);
@@ -479,6 +500,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_AsCharacter_Movement;
     private readonly InputAction m_AsCharacter_Fire;
     private readonly InputAction m_AsCharacter_SecondaryAction;
+    private readonly InputAction m_AsCharacter_Release;
     public struct AsCharacterActions
     {
         private @PlayerInput m_Wrapper;
@@ -486,6 +508,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_AsCharacter_Movement;
         public InputAction @Fire => m_Wrapper.m_AsCharacter_Fire;
         public InputAction @SecondaryAction => m_Wrapper.m_AsCharacter_SecondaryAction;
+        public InputAction @Release => m_Wrapper.m_AsCharacter_Release;
         public InputActionMap Get() { return m_Wrapper.m_AsCharacter; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -504,6 +527,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @SecondaryAction.started += instance.OnSecondaryAction;
             @SecondaryAction.performed += instance.OnSecondaryAction;
             @SecondaryAction.canceled += instance.OnSecondaryAction;
+            @Release.started += instance.OnRelease;
+            @Release.performed += instance.OnRelease;
+            @Release.canceled += instance.OnRelease;
         }
 
         private void UnregisterCallbacks(IAsCharacterActions instance)
@@ -517,6 +543,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @SecondaryAction.started -= instance.OnSecondaryAction;
             @SecondaryAction.performed -= instance.OnSecondaryAction;
             @SecondaryAction.canceled -= instance.OnSecondaryAction;
+            @Release.started -= instance.OnRelease;
+            @Release.performed -= instance.OnRelease;
+            @Release.canceled -= instance.OnRelease;
         }
 
         public void RemoveCallbacks(IAsCharacterActions instance)
@@ -597,6 +626,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnSecondaryAction(InputAction.CallbackContext context);
+        void OnRelease(InputAction.CallbackContext context);
     }
     public interface ITargetReticleActions
     {

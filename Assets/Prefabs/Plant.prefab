@@ -120,8 +120,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ac4294319ba08f4aa6ea46ba81ac9e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageLifeSpan: 5
+  stageLifeSpan: 300
   endTime: 0
+  noMoreWater: 1
 --- !u!1 &2850771539899232233
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,8 +243,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ac4294319ba08f4aa6ea46ba81ac9e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageLifeSpan: 5
+  stageLifeSpan: 60
   endTime: 0
+  noMoreWater: 0
 --- !u!1 &4240317147247357752
 GameObject:
   m_ObjectHideFlags: 0
@@ -254,6 +256,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8168635565923063065}
   - component: {fileID: 7629064079861270448}
+  - component: {fileID: 5517193417300768522}
   m_Layer: 0
   m_Name: Plant
   m_TagString: Untagged
@@ -295,6 +298,22 @@ MonoBehaviour:
   - {fileID: 2850771539899232233}
   - {fileID: 8525145021769128566}
   - {fileID: 2627478372492522323}
+--- !u!114 &5517193417300768522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4240317147247357752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675b4a49d93dc9b4f97f556aae1bdeea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathTime: 0
+  waterMax: 10
+  currentWater: 5
+  waterDecreaseTime: 30
 --- !u!1 &8525145021769128566
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,5 +434,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ac4294319ba08f4aa6ea46ba81ac9e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageLifeSpan: 5
+  stageLifeSpan: 60
   endTime: 0
+  noMoreWater: 0

@@ -6,11 +6,21 @@ public class PlantStage : MonoBehaviour
 {
     [SerializeField] float stageLifeSpan = 1;
     [SerializeField] float endTime = 0;
+    [SerializeField] bool noMoreWater;
     float endTimeStart = 0;
     bool isEnding = false;
     GameObject nextStage;
-    
 
+    private void Start()
+    {
+        if (noMoreWater)
+        {
+            if(gameObject.transform.parent.GetComponent<Waterable>() != null)
+            {
+                gameObject.transform.parent.GetComponent<Waterable>().NoMoreWater();
+            }
+        }
+    }
     // Update is called once per frame
     void Update()
     {

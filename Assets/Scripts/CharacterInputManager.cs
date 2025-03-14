@@ -27,6 +27,7 @@ public class CharacterInputManager : MonoBehaviour
         characterMotor.ProcessMove(asChar.Movement.ReadValue<Vector2>());
         spellCastMotor.Fire(asChar.Fire.ReadValue<float>());
         secondaryActionMotor.Action(asChar.SecondaryAction.ReadValue<float>());
+        secondaryActionMotor.Release(asChar.Release.ReadValue<float>());
 
     }
 
