@@ -6,16 +6,23 @@ public class Grabbable : MonoBehaviour
 {
     [SerializeField] Action action;
     [SerializeField] bool singleUse;
+    [SerializeField] Animator animator;
+    [SerializeField] float timeUntilDestroy = 1;
 
     public Action GetAction()
     {
         if(singleUse)
-            Destroy(this.gameObject, .25f);
+            Destroy(this.gameObject, timeUntilDestroy);
         return action;
     }
 
     public bool IsSingleUse()
     {
         return singleUse;
+    }
+
+    public Animator GetAnimator()
+    {
+        return animator;
     }
 }

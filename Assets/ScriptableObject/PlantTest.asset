@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dab478a35d1b78a4ebc0463b51eae3f2, type: 3}
   m_Name: PlantTest
   m_EditorClassIdentifier: 
-  actionName: PlantTest
+  actionName: PumpkinSeed
   numberOfActions: 0
   totalActionTime: 0
   plantObject: {fileID: 4240317147247357752, guid: a24167239e39a4b45a141b8d89f63088, type: 3}

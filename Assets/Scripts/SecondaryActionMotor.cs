@@ -9,6 +9,8 @@ public class SecondaryActionMotor : MonoBehaviour
     float timeOfLastAction = 0;
     [SerializeField] GameObject heldObject;
     [SerializeField] GameObject targetReticle;
+    bool wasTrigger;
+    bool wasKinematic;
     
 
     internal void Action(float v)
@@ -18,8 +20,7 @@ public class SecondaryActionMotor : MonoBehaviour
 
             if (heldObject != null)
             {
-                heldObject.GetComponent<Grabbable>().GetAction().TakeAction(targetReticle.transform);
-               
+                UseAction();
             }
             else
             {
@@ -30,13 +31,40 @@ public class SecondaryActionMotor : MonoBehaviour
         
     }
 
+    private void UseAction()
+    {
+        if (heldObject.GetComponent<Grabbable>().GetAnimator() != null)
+        {
+            heldObject.GetComponent<Grabbable>().GetAnimator().SetTrigger("Use");
+        }
+        if (heldObject.GetComponent<Grabbable>().IsSingleUse())
+        {
+            heldObject.transform.parent = null;
+        }
+        if (heldObject.GetComponent<Grabbable>().GetAction() != null)
+        {
+            heldObject.GetComponent<Grabbable>().GetAction().TakeAction(targetReticle.transform);
+        }
+        
+    }
+
     private void Grab()
     {
         heldObject = targetReticle.GetComponent<TargetReticleFindGrabbable>().GetGrabbable();
         if(heldObject != null)
         {
+            if(heldObject.GetComponent<Grabbable>().GetAnimator() != null)
+            {
+                heldObject.GetComponent<Grabbable>().GetAnimator().SetTrigger("Grab");
+            }
             heldObject.transform.position = targetReticle.transform.position;
             heldObject.transform.parent = targetReticle.transform;
+            if(heldObject.GetComponent<Rigidbody>() != null)
+            {
+                wasKinematic = heldObject.GetComponent<Rigidbody>().isKinematic;
+                heldObject.GetComponent<Rigidbody>().isKinematic = true;
+            }
+            wasTrigger = heldObject.GetComponent<Collider>().isTrigger;
             heldObject.GetComponent<Collider>().isTrigger = true;
         }
         
@@ -46,6 +74,15 @@ public class SecondaryActionMotor : MonoBehaviour
     {
         if(heldObject != null && v != 0)
         {
+            if (heldObject.GetComponent<Grabbable>().GetAnimator() != null)
+            {
+                heldObject.GetComponent<Grabbable>().GetAnimator().SetTrigger("Release");
+            }
+            if (heldObject.GetComponent<Rigidbody>() != null)
+            {
+                heldObject.GetComponent<Rigidbody>().isKinematic = wasKinematic;
+            }
+            heldObject.GetComponent<Collider>().isTrigger = wasTrigger;
             heldObject.transform.parent = null;
             heldObject = null;
         }

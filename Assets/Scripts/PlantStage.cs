@@ -13,6 +13,7 @@ public class PlantStage : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("plant stage start");
         if (noMoreWater)
         {
             if(gameObject.transform.parent.GetComponent<Waterable>() != null)
