@@ -373,6 +373,78 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Look"",
+            ""id"": ""c35d1da7-34b4-4fca-be47-271582f8261e"",
+            ""actions"": [
+                {
+                    ""name"": ""GamePadLook"",
+                    ""type"": ""Value"",
+                    ""id"": ""db44d92c-fa7e-49d6-88c9-2bb7870aca10"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""aa9bfeed-39cf-4304-a72a-7abc5ac2fe6b"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GamePadLook"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""c7012189-27dc-4306-bddd-a1a8337ee129"",
+                    ""path"": ""<Gamepad>/rightStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GamePadLook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""23752165-c498-46f1-bf8f-3a1d4a1a4da9"",
+                    ""path"": ""<Gamepad>/rightStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GamePadLook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""dfb18664-a435-4dfd-a3e8-4199b2b29219"",
+                    ""path"": ""<Gamepad>/rightStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GamePadLook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""50ccf959-f047-4dc3-ac31-3586e87ed21b"",
+                    ""path"": ""<Gamepad>/rightStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GamePadLook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -390,6 +462,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_TargetReticle = asset.FindActionMap("TargetReticle", throwIfNotFound: true);
         m_TargetReticle_Target = m_TargetReticle.FindAction("Target", throwIfNotFound: true);
         m_TargetReticle_Accelerate = m_TargetReticle.FindAction("Accelerate", throwIfNotFound: true);
+        // Look
+        m_Look = asset.FindActionMap("Look", throwIfNotFound: true);
+        m_Look_GamePadLook = m_Look.FindAction("GamePadLook", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -617,6 +692,52 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         }
     }
     public TargetReticleActions @TargetReticle => new TargetReticleActions(this);
+
+    // Look
+    private readonly InputActionMap m_Look;
+    private List<ILookActions> m_LookActionsCallbackInterfaces = new List<ILookActions>();
+    private readonly InputAction m_Look_GamePadLook;
+    public struct LookActions
+    {
+        private @PlayerInput m_Wrapper;
+        public LookActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @GamePadLook => m_Wrapper.m_Look_GamePadLook;
+        public InputActionMap Get() { return m_Wrapper.m_Look; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(LookActions set) { return set.Get(); }
+        public void AddCallbacks(ILookActions instance)
+        {
+            if (instance == null || m_Wrapper.m_LookActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_LookActionsCallbackInterfaces.Add(instance);
+            @GamePadLook.started += instance.OnGamePadLook;
+            @GamePadLook.performed += instance.OnGamePadLook;
+            @GamePadLook.canceled += instance.OnGamePadLook;
+        }
+
+        private void UnregisterCallbacks(ILookActions instance)
+        {
+            @GamePadLook.started -= instance.OnGamePadLook;
+            @GamePadLook.performed -= instance.OnGamePadLook;
+            @GamePadLook.canceled -= instance.OnGamePadLook;
+        }
+
+        public void RemoveCallbacks(ILookActions instance)
+        {
+            if (m_Wrapper.m_LookActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ILookActions instance)
+        {
+            foreach (var item in m_Wrapper.m_LookActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_LookActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public LookActions @Look => new LookActions(this);
     public interface IInBoatActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -632,5 +753,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     {
         void OnTarget(InputAction.CallbackContext context);
         void OnAccelerate(InputAction.CallbackContext context);
+    }
+    public interface ILookActions
+    {
+        void OnGamePadLook(InputAction.CallbackContext context);
     }
 }

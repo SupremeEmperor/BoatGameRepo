@@ -21,6 +21,10 @@ public class PlantAction : Action
         /**
          * Removes the targetReticle as the parent
          **/
+        if(passedAnimator != null)
+        {
+            passedAnimator.SetTrigger(animationCall);
+        }
         tempPlant.transform.parent = null;
         return totalActionTime;
     }

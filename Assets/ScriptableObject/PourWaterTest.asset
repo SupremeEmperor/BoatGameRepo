@@ -15,5 +15,7 @@ MonoBehaviour:
   actionName: Pour Water
   numberOfActions: 0
   totalActionTime: 0
+  audioClip: {fileID: 0}
+  animationCall: Use
   waterObject: {fileID: 8580632597094669288, guid: b0c624a5b45e5404b9bb7cc64775161b, type: 3}
   waterPourTime: 0.5

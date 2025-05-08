@@ -19,6 +19,8 @@ public class TargetReticleMotor : MonoBehaviour
     float lastSpeedChange = 0;
 
     [SerializeField] GameObject character;
+
+    [SerializeField] bool freeMove = false;
     //public Camera myCamera;
 
     private float currentVelocity;

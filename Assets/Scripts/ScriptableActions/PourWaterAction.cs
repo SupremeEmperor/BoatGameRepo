@@ -17,7 +17,10 @@ public class PourWaterAction : Action
         GameObject tempWaterArea = GameObject.Instantiate(waterObject, reticlePosition.transform);
         tempWaterArea.GetComponent<WateringCanWaterArea>().SetLifeTime(waterPourTime);
 
-
+        if(passedAnimator != null)
+        {
+            passedAnimator.SetTrigger(animationCall);
+        }
         return base.TakeAction(reticlePosition);
     }
 }

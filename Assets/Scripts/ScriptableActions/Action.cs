@@ -13,6 +13,8 @@ public class Action : ScriptableObject
     [Tooltip("How long the action takes in total")]
     [SerializeField] protected float totalActionTime;
     [SerializeField] AudioClip audioClip;
+    protected Animator passedAnimator;
+    [SerializeField] protected string animationCall = "Use";
     
     // Start is called before the first frame update
     public virtual float TakeAction(Transform reticlePosition)
@@ -22,5 +24,11 @@ public class Action : ScriptableObject
             SoundFXManager.instance.PlaySoundClip(audioClip, reticlePosition, 1f);
         }
         return totalActionTime;
+    }
+
+    public virtual float TakeAction(Transform reticlePosition, Animator animator)
+    {
+        passedAnimator = animator;
+        return TakeAction(reticlePosition);
     }
 }

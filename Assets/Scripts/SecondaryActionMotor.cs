@@ -33,17 +33,19 @@ public class SecondaryActionMotor : MonoBehaviour
 
     private void UseAction()
     {
-        if (heldObject.GetComponent<Grabbable>().GetAnimator() != null)
-        {
-            heldObject.GetComponent<Grabbable>().GetAnimator().SetTrigger("Use");
-        }
+       
         if (heldObject.GetComponent<Grabbable>().IsSingleUse())
         {
             heldObject.transform.parent = null;
         }
         if (heldObject.GetComponent<Grabbable>().GetAction() != null)
         {
-            heldObject.GetComponent<Grabbable>().GetAction().TakeAction(targetReticle.transform);
+            if (heldObject.GetComponent<Grabbable>().GetAnimator() != null)
+            {
+                heldObject.GetComponent<Grabbable>().GetAction().TakeAction(targetReticle.transform,
+                    heldObject.GetComponent<Grabbable>().GetAnimator()); 
+            } else
+                heldObject.GetComponent<Grabbable>().GetAction().TakeAction(targetReticle.transform);
         }
         
     }
@@ -58,6 +60,7 @@ public class SecondaryActionMotor : MonoBehaviour
                 heldObject.GetComponent<Grabbable>().GetAnimator().SetTrigger("Grab");
             }
             heldObject.transform.position = targetReticle.transform.position;
+            heldObject.transform.rotation = targetReticle.transform.rotation;
             heldObject.transform.parent = targetReticle.transform;
             if(heldObject.GetComponent<Rigidbody>() != null)
             {

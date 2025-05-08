@@ -10,10 +10,11 @@ public class CharacterMotor : MonoBehaviour
     private bool isGrounded;
 
     public float speed = 5f;
-    public float rotationSpeed = .5f;
+    public float rotationSpeed = .2f;
     public float gravity = -9.8f;
     public Camera myCamera;
     public Transform characterVisual;
+    public Transform orientation;
 
     private float currentVelocity;
     // Start is called before the first frame update
@@ -34,6 +35,8 @@ public class CharacterMotor : MonoBehaviour
 
         //Debug.Log(input.x + "   " + input.y);
 
+        
+
         moveDirection = moveDirection.normalized;
 
         controller.Move(speed * Time.deltaTime * moveDirection);
@@ -51,8 +54,14 @@ public class CharacterMotor : MonoBehaviour
 
     }
 
-    private static Vector3 GetMoveDirection(Vector2 input)
+    private Vector3 GetMoveDirection(Vector2 input)
     {
-        return new Vector3(input.x, 0, input.y);
+        Vector3 forward = orientation.forward;
+        Vector3 right = orientation.right;
+
+        Vector3 fowardRelativeInput = input.y * forward;
+        Vector3 rightRelativeInput = input.x * right;
+
+        return fowardRelativeInput + rightRelativeInput;
     }
 }

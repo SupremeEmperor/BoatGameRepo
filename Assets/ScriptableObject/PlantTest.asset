@@ -15,4 +15,6 @@ MonoBehaviour:
   actionName: PumpkinSeed
   numberOfActions: 0
   totalActionTime: 0
+  audioClip: {fileID: 0}
+  animationCall: Use
   plantObject: {fileID: 4240317147247357752, guid: a24167239e39a4b45a141b8d89f63088, type: 3}
