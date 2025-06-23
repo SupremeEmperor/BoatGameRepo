@@ -189,6 +189,24 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""6b1d36f4-f39b-4bf8-882c-003334e057c9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""fc24af90-e071-47c3-813a-8f2654ae5a5c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -277,6 +295,28 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Release"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""50bd46c3-8f00-4b60-8d13-c50ce361f18d"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aba86819-be91-4530-aabd-997ee3c5e863"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -458,6 +498,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_AsCharacter_Fire = m_AsCharacter.FindAction("Fire", throwIfNotFound: true);
         m_AsCharacter_SecondaryAction = m_AsCharacter.FindAction("SecondaryAction", throwIfNotFound: true);
         m_AsCharacter_Release = m_AsCharacter.FindAction("Release", throwIfNotFound: true);
+        m_AsCharacter_Jump = m_AsCharacter.FindAction("Jump", throwIfNotFound: true);
+        m_AsCharacter_Interact = m_AsCharacter.FindAction("Interact", throwIfNotFound: true);
         // TargetReticle
         m_TargetReticle = asset.FindActionMap("TargetReticle", throwIfNotFound: true);
         m_TargetReticle_Target = m_TargetReticle.FindAction("Target", throwIfNotFound: true);
@@ -576,6 +618,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_AsCharacter_Fire;
     private readonly InputAction m_AsCharacter_SecondaryAction;
     private readonly InputAction m_AsCharacter_Release;
+    private readonly InputAction m_AsCharacter_Jump;
+    private readonly InputAction m_AsCharacter_Interact;
     public struct AsCharacterActions
     {
         private @PlayerInput m_Wrapper;
@@ -584,6 +628,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Fire => m_Wrapper.m_AsCharacter_Fire;
         public InputAction @SecondaryAction => m_Wrapper.m_AsCharacter_SecondaryAction;
         public InputAction @Release => m_Wrapper.m_AsCharacter_Release;
+        public InputAction @Jump => m_Wrapper.m_AsCharacter_Jump;
+        public InputAction @Interact => m_Wrapper.m_AsCharacter_Interact;
         public InputActionMap Get() { return m_Wrapper.m_AsCharacter; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -605,6 +651,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Release.started += instance.OnRelease;
             @Release.performed += instance.OnRelease;
             @Release.canceled += instance.OnRelease;
+            @Jump.started += instance.OnJump;
+            @Jump.performed += instance.OnJump;
+            @Jump.canceled += instance.OnJump;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
         }
 
         private void UnregisterCallbacks(IAsCharacterActions instance)
@@ -621,6 +673,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Release.started -= instance.OnRelease;
             @Release.performed -= instance.OnRelease;
             @Release.canceled -= instance.OnRelease;
+            @Jump.started -= instance.OnJump;
+            @Jump.performed -= instance.OnJump;
+            @Jump.canceled -= instance.OnJump;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
         }
 
         public void RemoveCallbacks(IAsCharacterActions instance)
@@ -748,6 +806,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnFire(InputAction.CallbackContext context);
         void OnSecondaryAction(InputAction.CallbackContext context);
         void OnRelease(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
     public interface ITargetReticleActions
     {

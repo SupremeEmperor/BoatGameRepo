@@ -10,6 +10,20 @@ public class TimeController : MonoBehaviour
     float time;
     bool isOutofTimeScale = false;
 
+    public static TimeController instance;
+
+    private void Awake()
+    {
+        if(instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
     public void Pause()
     {
         heldTimeScale = Time.timeScale;

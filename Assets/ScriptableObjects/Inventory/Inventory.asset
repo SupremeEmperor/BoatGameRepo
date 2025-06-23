@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 327c55e58ac9a6345b520c8f0869d934, type: 3}
+  m_Name: Inventory
+  m_EditorClassIdentifier: 
+  items:
+  - {fileID: 11400000, guid: e9aadbe439d77d940afa16f97397d1b7, type: 2}
+  - {fileID: 11400000, guid: d948d4eb980c1924aab4ab9c9ba97f1a, type: 2}
+  - {fileID: 11400000, guid: 49917f71ec05ad04cbd788c7a8041d05, type: 2}
+  - {fileID: 11400000, guid: 216f829982370f548a23c8e35e36848a, type: 2}
+  - {fileID: 11400000, guid: 96177d54fe6a538408ab3e5b9faa2c1f, type: 2}
+  - {fileID: 11400000, guid: b09637663ec723f469bf356f551184c8, type: 2}
+  - {fileID: 11400000, guid: c80e71ea87f39f44ebc0a618b4df2541, type: 2}
+  - {fileID: 11400000, guid: 74123f3472bec6743855cd03ad8380d3, type: 2}
+  - {fileID: 11400000, guid: 1985da01cd45e8d4da23b15174999e53, type: 2}
+  - {fileID: 11400000, guid: 1aef569f62b40a847b4862f9d7766825, type: 2}
+  - {fileID: 11400000, guid: 2dd69f7582b3cb34cbb887158d959584, type: 2}
